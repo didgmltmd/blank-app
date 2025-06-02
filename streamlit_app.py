@@ -1,17 +1,15 @@
-import streamlit as st
-import time
+import folium
+import pandas as pd
 
-st.header("양희승")
+df = pd.read_csv("/content/jinju_cctv_20250513.csv", encoding='euc-kr')
 
-with st.spinner("전체 작업 진행 중..."):
-    progress = st.progress(0)
-    status_text = st.empty()  # 텍스트 덮어쓰기 용 공간 확보
 
-    for i in range(5):
-        status_text.write(f"🔧 Step {i+1}/5: 데이터 준비 중...")
-        time.sleep(1)
-        progress.progress((i + 1) * 20)
 
-st.success("처리가 모두 끝났습니다!")
 
+m = folium.Map(location=[35.1799817, 128.1076213], zoom_start=13)
+
+
+for 위도, 경도, 목적 in zip(df['위도'], df['경도'], df['목적']):
+    folium.Marker(location=[위도, 경도],
+                  popup=folium.Popup(목적, parse_html=True, max_width=100)).add_to(m)
 
