@@ -8,6 +8,7 @@ from streamlit_folium import st_folium
 df = pd.read_csv("jinju_cctv_20250513.csv", encoding="euc-kr")
 
 
+
 # 지도 생성
 m = folium.Map(location=[35.1799817, 128.1076213], zoom_start=13)
 
