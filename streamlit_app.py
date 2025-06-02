@@ -1,24 +1,27 @@
-# streamlit_app.py
 import streamlit as st
-import folium
-import pandas as pd
-from streamlit_folium import st_folium
+from dashboard.power_demand_dashboard import power_demand_dashboard
+from dashboard.power_supply_dashboard import power_supply_dashboard
+from dashboard.power_supply_vs_demand_dashboard import power_supply_vs_demand_dashboard
+from dashboard.power_supply_vs_demand_outage_dashboard import power_outage_vs_supply_demand_dashboard
 
-# 데이터 로드
-df = pd.read_csv("jinju_cctv_20250513.csv", encoding="euc-kr")
+st.set_page_config(page_title="전력 통합 대시보드", layout="wide")
 
+# 4개의 탭으로 구성
+tab1, tab2, tab3, tab4 = st.tabs([
+    "⚡ 전력수요 대시보드",
+    "⚡ 전력공급 대시보드",
+    "⚡ 전력 수요-공급 비교 대시보드",
+    "⚡ 정전통계 + 수요·공급 비교"
+])
 
+with tab1:
+    power_demand_dashboard()
 
-# 지도 생성
-m = folium.Map(location=[35.1799817, 128.1076213], zoom_start=13)
+with tab2:
+    power_supply_dashboard()
 
-# 마커 추가
-for 위도, 경도, 목적 in zip(df['위도'], df['경도'], df['목적']):
-    folium.Marker(
-        location=[위도, 경도],
-        popup=folium.Popup(목적, parse_html=True, max_width=100)
-    ).add_to(m)
+with tab3:
+    power_supply_vs_demand_dashboard()
 
-# Streamlit에서 지도 표시
-st.title("진주시 CCTV 지도")
-st_folium(m, width=700, height=500)
+with tab4:
+    power_outage_vs_supply_demand_dashboard()
